@@ -7,8 +7,10 @@ This file creates your application.
 """
 
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
+import smtplib  
 
+app.secret_key = 'my superrr dupper secret_key'
 
 ###
 # Routing for your application.
@@ -24,6 +26,16 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html')
+
+@app.route('/profile/')
+def profile():
+    return render_template('profile.html')
+  
+#@app.route('/sendemail', methods=['POST'])
+#def sendemail():
+#    flash('Email was successfully sent')
+#    return redirect(url_for('contact')) 
+    
 
 
 ###
