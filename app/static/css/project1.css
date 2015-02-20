@@ -1,0 +1,28 @@
+.form { padding: 30px; }
+
+.lbel { font-size: 16px; }
+
+.profile { 
+  padding: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
+  background-color: #F8F8F8;
+}
+
+.profilep {
+  background-color: #d0e4fe;
+  font-family: "Times New Roman";
+  font-size: 20px;
+  border-style: solid;
+  border-width: 2px;
+  width: 300px;
+  padding: 10px;
+  position: relative;
+  top: -240px;  
+  left: 260px;
+}
+
+.pic {
+  max-height: 240px; }
+}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block main %}
+<div class="profile">
+<img class="pic" src="/static/img/me.jpg" alt="My image">
+<p class="profilep"> Name: {{ firstname }} {{ lastname }} </p>
+  <br><br>
+<p class="profilep">Created: {{ date_created }}</p>
+<p class="profilep">Username: {{username}}
+  <br>ID: {{ userid }}
+  <br>Age: {{ age }}
+  <br>Sex: {{ gender }}
+  <br>Highest Score: {{ score }}
+  <br>TDollars: ${{ tdollars }}
+</p>
+</div>
+{% endblock %}

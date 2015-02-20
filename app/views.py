@@ -5,10 +5,15 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 
 This file creates your application.
 """
-
+from app import db
 from app import app
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, g
 import smtplib  
+import time
+import sqlite3
+from app import app
+from app.models import Profiles
+
 
 app.secret_key = 'my superrr dupper secret_key'
 
@@ -27,17 +32,36 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
+#create user profile
 @app.route('/profile/')
 def profile():
     return render_template('profile.html')
   
-#@app.route('/sendemail', methods=['POST'])
-#def sendemail():
-#    flash('Email was successfully sent')
-#    return redirect(url_for('contact')) 
+def timeinfo():
+    return time.strftime("%a, %d %b %Y")
+  
+def createID():
+    return time.strftime("%y%j%H%M%S")
+
+@app.route('/profiles/', methods=['POST'])
+def userprofile():
+  
+    userid = createID()
+    username = request.form['username']
+    firstname = request.form['fname']
+    lastname = request.form['lname']
+    age = request.form['age']
+    gender = request.form['sex']
+    date_created = timeinfo()
     
+#     newuser = User(userid, username, firstname, lastname, age, gender, date_created)
+#     db.session.add(newuser)
+#     db.session.commit()
 
-
+    return render_template('userprofile.html', userid=userid, username=username, \
+                           firstname=firstname, lastname=lastname, age=age, \
+                           gender=gender, date_created=date_created)
+  
 ###
 # The functions below should be applicable to all Flask apps.
 ###

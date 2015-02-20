@@ -11,18 +11,20 @@ Create Profile
 
 {% block main %}
 
-<div>  
-  <form action="" method="POST" enctype="mutlipart/form-data">
+<div class="form">  
+  <form action="{{url_for('userprofile')}}" method="POST" enctype="mutlipart/form-data">
     <h2><b>CREATE USER PROFILE</h2>
     <br>
-    <p class="lbel"> <label> First Name: <br> <input type="text" name="fname" autofocus placeholder="enter first name..." required></label></p>
-    <p class="lbel"> <label> Last Name: <br> <input type="text" name="lname" placeholder="enter last name..." required></label></p>
+    <p class="lbel"> <label> First Name: <br> <input type="text" name="fname" autofocus required></label></p>
+    <p class="lbel"> <label> Last Name: <br> <input type="text" name="lname" required></label></p>
+    <p class="lbel"> <label> Username: <br> <input type="text" name="username" required></label></p>
     <p class="lbel"> <label> Age: <br> <input type="number" name="age" min="16" required></label></p>
     <p class="lbel"> <label> Sex: <br> <select name="sex" required>
                                         <option></option>
-                                        <option>male</option>
-                                        <option>female</option>
-                                       </select>      
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                       </select>   
+    <p class="lbel"> <label> Profile Picture: <br> <input type=file accept="image/*" required>
     <br><br>
     <input type="submit" value="Submit">
   </form>
