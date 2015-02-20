@@ -26,42 +26,64 @@ def home():
     """Render website's home page."""
     return render_template('home.html')
 
-
+    
 @app.route('/about/')
 def about():
     """Render the website's about page."""
     return render_template('about.html')
 
-#create user profile
-@app.route('/profile/')
-def profile():
-    return render_template('profile.html')
-  
+#my functions  
 def timeinfo():
     return time.strftime("%a, %d %b %Y")
   
 def createID():
     return time.strftime("%y%j%H%M%S")
-
-@app.route('/profiles/', methods=['POST'])
-def userprofile():
   
-    userid = createID()
+#insert profile roots
+@app.route('/profile/')
+def profile():
+    return render_template('profile.html')  
+
+@app.route('/submit/', methods=['POST'])
+def createprofile():
+  
+    userid = createID()#generate user id
+    datecreated = timeinfo()#gets today's date
+    
+    #extract date from form
     username = request.form['username']
     firstname = request.form['fname']
     lastname = request.form['lname']
     age = request.form['age']
     gender = request.form['sex']
-    date_created = timeinfo()
+        
+    #adding to database
+    user = Profiles(userid, username, firstname, lastname, age, gender, datecreated)     
+    db.session.add(user)
+    db.session.commit()
     
-#     newuser = User(userid, username, firstname, lastname, age, gender, date_created)
-#     db.session.add(newuser)
-#     db.session.commit()
+    return redirect(url_for('show_user', userid = userid))
+ 
 
-    return render_template('userprofile.html', userid=userid, username=username, \
-                           firstname=firstname, lastname=lastname, age=age, \
-                           gender=gender, date_created=date_created)
+@app.route('/profile/<userid>')
+def show_user(userid):
+    user = Profiles.query.filter_by(userid=userid).first_or_404()
+    
+    return render_template('userprofile.html', userid=user.userid, username=user.username, \
+                           firstname=user.firstname, lastname=user.lastname, age=user.age, \
+                           gender=user.gender, datecreated=user.datecreated)
+
   
+@app.route('/profiles/')
+def show_users():
+    users = Profiles.query.all()
+    if (users == None):
+      flash("No user created")
+      return redirect(url_for('profile'))
+    else:
+      return render_template('profiles.html', users=users)
+    
+    
 ###
 # The functions below should be applicable to all Flask apps.
 ###
