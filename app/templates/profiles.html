@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+Profiles
+{% endblock %}
+
+{% block main %}
+
+<div class="profile">
+  <h1>List of Users </h1><br>
+
+  {% for user in users %}
+  <p>
+  <h3> {{ user.firstname }} {{ user.lastname }} </h3>
+    <b>User ID:</b> {{ user.userid }} <br> 
+    <b>User:</b> {{ user.username }}  <br> 
+    <b>Created:</b> {{user.datecreated }} <br> 
+  </p>
+  {% endfor %}
+</div>
+{% endblock %}

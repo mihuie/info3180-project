@@ -8,7 +8,7 @@ class Profiles(db.Model):
     age = db.Column(db.Integer, unique=False)
     gender = db.Column(db.String(10), unique=False)
     datecreated = db.Column(db.String(20), unique=False)
-    
+
     
     def __init__(self, userid, username, firstname, lastname, age, gender, datecreated):
         self.userid = userid

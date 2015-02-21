@@ -11,22 +11,20 @@ Create Profile
 
 {% block main %}
 
-<div class="form">  
-  <form action="{{url_for('createprofile')}}" method="POST" enctype="mutlipart/form-data">
-    <h2><b>CREATE USER PROFILE</h2>
-    <br>
-    <p class="lbel"> <label> First Name: <br> <input type="text" name="fname" autofocus required></label></p>
-    <p class="lbel"> <label> Last Name: <br> <input type="text" name="lname" required></label></p>
-    <p class="lbel"> <label> Username: <br> <input type="text" name="username" required></label></p>
-    <p class="lbel"> <label> Age: <br> <input type="number" name="age" min="16" required></label></p>
-    <p class="lbel"> <label> Sex: <br> <select name="sex" required>
-                                        <option></option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                       </select>   
-    <p class="lbel"> <label> Profile Picture: <br> <input type=file accept="image/*" required>
-    <br><br>
-    <input type="submit" value="Submit">
+<h2><b>CREATE USER PROFILE</h2>
+  
+<div class="form">
+  
+  {% from "_form_helpers.html" import render_field %}
+  <form method="POST" action="{{ url_for('profile') }}">
+      {{ render_field(form.username) }}
+      {{ render_field(form.firstname) }}
+      {{ render_field(form.lastname) }}
+      {{ render_field(form.age) }}
+      {{ render_field(form.gender) }}
+      {{ render_field(form.image) }}
+      <br><br>
+      {{ render_field(form.submit) }}
   </form>
 </div>
   

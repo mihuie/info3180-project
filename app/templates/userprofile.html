@@ -4,21 +4,21 @@
 {% endblock %}
 
 {% block title %}
-{{username}}
+{{ user.username }}
 {% endblock %}
 
 {% block main %}
 <div class="profile">
-<img class="pic" src="/static/img/me.jpg" alt="{{username}}">
-<p class="profilep"> Name: {{ firstname }} {{ lastname }} </p>
+<img class="pic" src="/static/img/me.jpg" alt={{username}}>
+<p class="profilep"> Name: {{ user.firstname }} {{ user.lastname }} </p>
   <br><br>
-<p class="profilep">Created: {{ datecreated }}</p>
-<p class="profilep">Username: {{username}}
-  <br>ID: {{ userid }}
-  <br>Age: {{ age }}
-  <br>Sex: {{ gender }}
-  <br>Highest Score: {{ score }}
-  <br>TDollars: ${{ tdollars }}
+<p class="profilep">Created: {{ user.datecreated }}</p>
+<p class="profilep">Username: {{ user.username }}
+  <br>ID: {{ user.userid }}
+  <br>Age: {{ user.age }}
+  <br>Sex: {{ user.gender }}
+  <br>Highest Score: {{ user.score }}
+  <br>TDollars: ${{ user.tdollars }}
 </p>
 </div>
 {% endblock %}

@@ -1,9 +1,14 @@
 from flask.ext.wtf import Form
-from wtforms.fields import TextField
-from wtforms.validators import Required
+from wtforms.fields import StringField, IntegerField, SubmitField, FileField, SelectField
+from wtforms.validators import Required, Length, NumberRange
 from werkzeug import secure_filename
 
 
-class EmailPasswordForm(Form):
-    username = TextField('Username', validators=[Required()])
-    email = TextField('Email', validators=[Required(), Email()])
+class CreateUserForm(Form):
+    username = StringField('Username', validators=[Length(min=4, max=25)])
+    firstname = StringField('First Name', validators=[Length(min=4, max=25)])
+    lastname = StringField('Last Name', validators=[Length(min=4, max=25)])
+    age = IntegerField('Age', validators=[NumberRange(min=16, max=99)])
+    gender = SelectField('Gender', choices=[('male', 'Male'), ('Female','Female')])    
+    image = FileField('Image File', validators=[Required()])
+    submit = SubmitField("Register")

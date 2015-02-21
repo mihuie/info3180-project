@@ -7,13 +7,12 @@ This file creates your application.
 """
 from app import db
 from app import app
-from flask import render_template, request, redirect, url_for, flash, g
+from flask import render_template, request, redirect, url_for
 import smtplib  
 import time
 import sqlite3
-from app import app
 from app.models import Profiles
-
+from forms import CreateUserForm
 
 app.secret_key = 'my superrr dupper secret_key'
 
@@ -40,50 +39,33 @@ def createID():
     return time.strftime("%y%j%H%M%S")
   
 #insert profile roots
-@app.route('/profile/')
+@app.route('/profile/', methods=['POST','GET'])
 def profile():
-    return render_template('profile.html')  
-
-@app.route('/submit/', methods=['POST'])
-def createprofile():
+    form = CreateUserForm()
+    if request.method != "POST" and form.validate():
+#       userid = createID()#generate user id
+#       datecreated = timeinfo()#gets today's date
+#       user = Profiles(userid, form.username.data, form.firstname.data, \
+#                       form.lastname.data, form.age.data, form.gender.data, datecreated)
+#       db_session.add(user)
+#       db.session.commit()
+#       return render_template('profiles.html')    
+      return 'test'
+    return render_template('profile.html', form=form)  
   
-    userid = createID()#generate user id
-    datecreated = timeinfo()#gets today's date
-    
-    #extract date from form
-    username = request.form['username']
-    firstname = request.form['fname']
-    lastname = request.form['lname']
-    age = request.form['age']
-    gender = request.form['sex']
-        
-    #adding to database
-    user = Profiles(userid, username, firstname, lastname, age, gender, datecreated)     
-    db.session.add(user)
-    db.session.commit()
-    
-    return redirect(url_for('show_user', userid = userid))
- 
 
+  
 @app.route('/profile/<userid>')
 def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()
-    
-    return render_template('userprofile.html', userid=user.userid, username=user.username, \
-                           firstname=user.firstname, lastname=user.lastname, age=user.age, \
-                           gender=user.gender, datecreated=user.datecreated)
+    return render_template('userprofile.html', user=user)
 
   
 @app.route('/profiles/')
 def show_users():
     users = Profiles.query.all()
-    if (users == None):
-      flash("No user created")
-      return redirect(url_for('profile'))
-    else:
-      return render_template('profiles.html', users=users)
-    
-    
+    return render_template('profiles.html', users=users)
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###
