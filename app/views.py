@@ -18,7 +18,7 @@ app.secret_key = 'my superrr dupper secret_key'
 
 ###
 # Routing for your application.
-###
+### 
 
 @app.route('/')
 def home():
@@ -42,19 +42,18 @@ def createID():
 @app.route('/profile/', methods=['POST','GET'])
 def profile():
     form = CreateUserForm()
-    if request.method != "POST" and form.validate():
-#       userid = createID()#generate user id
-#       datecreated = timeinfo()#gets today's date
-#       user = Profiles(userid, form.username.data, form.firstname.data, \
-#                       form.lastname.data, form.age.data, form.gender.data, datecreated)
-#       db_session.add(user)
-#       db.session.commit()
-#       return render_template('profiles.html')    
-      return 'test'
-    return render_template('profile.html', form=form)  
+    if request.method == "POST" and form.validate():
+      userid = createID()#generate user id
+      datecreated = timeinfo()#gets today's date
+      user = Profiles(userid, form.username.data, form.firstname.data, \
+                      form.lastname.data, form.age.data, form.gender.data, datecreated)
+      db.session.add(user)
+      db.session.commit()
+      return redirect(url_for('show_user', userid=userid))
+    else:
+        return render_template('profile.html', form=form)  
   
 
-  
 @app.route('/profile/<userid>')
 def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()

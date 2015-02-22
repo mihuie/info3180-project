@@ -17,6 +17,8 @@ Create Profile
   
   {% from "_form_helpers.html" import render_field %}
   <form method="POST" action="{{ url_for('profile') }}">
+      {{ form.hidden_tag() }}
+    
       {{ render_field(form.username) }}
       {{ render_field(form.firstname) }}
       {{ render_field(form.lastname) }}
