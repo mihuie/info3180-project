@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms.fields import StringField, IntegerField, SubmitField, FileField, SelectField
 from wtforms.validators import Required, Length, NumberRange
-from werkzeug import secure_filename
+from flask_wtf.file import FileField
 
 
 class CreateUserForm(Form):

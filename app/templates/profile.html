@@ -15,8 +15,13 @@ Create Profile
   
 <div class="form">
   
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+  <br>
+  
   {% from "_form_helpers.html" import render_field %}
-  <form method="POST" action="{{ url_for('profile') }}">
+  <form method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data">
       {{ form.hidden_tag() }}
     
       {{ render_field(form.username) }}
@@ -24,7 +29,7 @@ Create Profile
       {{ render_field(form.lastname) }}
       {{ render_field(form.age) }}
       {{ render_field(form.gender) }}
-      {{ render_field(form.image) }}
+      {{ render_field(form.image ) }}
       <br><br>
       {{ render_field(form.submit) }}
   </form>

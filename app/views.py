@@ -7,14 +7,18 @@ This file creates your application.
 """
 from app import db
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 import smtplib  
 import time
 import sqlite3
 from app.models import Profiles
 from forms import CreateUserForm
+from werkzeug import secure_filename
+from flask import jsonify,session
 
 app.secret_key = 'my superrr dupper secret_key'
+UPLOAD_FOLDER = 'app/static/img/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ###
 # Routing for your application.
@@ -43,26 +47,61 @@ def createID():
 def profile():
     form = CreateUserForm()
     if request.method == "POST" and form.validate():
-      userid = createID()#generate user id
-      datecreated = timeinfo()#gets today's date
-      user = Profiles(userid, form.username.data, form.firstname.data, \
-                      form.lastname.data, form.age.data, form.gender.data, datecreated)
-      db.session.add(user)
-      db.session.commit()
-      return redirect(url_for('show_user', userid=userid))
+      
+       if (Profiles.query.filter_by(username = form.username.data).first() is None):
+           
+          userid = createID()#generate user id
+          profile_add_on = timeinfo()#gets today's date
+
+          filename = secure_filename(userid)
+          form.image.data.save(UPLOAD_FOLDER + filename)
+          imagelocations = 'img/' + filename
+          user = Profiles(userid, form.username.data, form.firstname.data, \
+                          form.lastname.data, form.age.data, form.gender.data, \
+                          profile_add_on, imagelocations)
+          db.session.add(user)
+          db.session.commit()
+          return redirect(url_for('show_user', userid=userid ))
+       else:
+          flash('Username already taken.')
+          return render_template('profile.html', form=form) 
+        
     else:
         return render_template('profile.html', form=form)  
   
-
-@app.route('/profile/<userid>')
+def not_found():
+    message = {
+            'status': 404,
+            'message': 'Not Found: ' + request.url,
+    }
+    resp = jsonify(message)
+    resp.status_code = 404
+    return resp
+  
+  
+@app.route('/profile/<userid>', methods =['GET','POST'])
 def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()
-    return render_template('userprofile.html', user=user)
+    
+    if request.headers['Content-Type'] == 'application/json': 
+      return jsonify(profile_add_on = user.profile_add_on,
+                     age = user.age,
+                     sex = user.gender,
+                     image = user.image,
+                     username = user.username,
+                     user_id = userid)
+#     else:
+#       return not_found()
+    
+    return render_template('userprofile.html', user=user, filename = user.image)
 
   
-@app.route('/profiles/')
+@app.route('/profiles/', methods=['GET'])
 def show_users():
     users = Profiles.query.all()
+    if request.method == 'GET' and request.headers['Content-Type'] == 'application/json':
+       for u in users:
+         return jsonify(username = u.username, userid = u.userid)
     return render_template('profiles.html', users=users)
 
 ###

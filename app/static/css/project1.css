@@ -8,6 +8,7 @@
   margin-right: auto;
   width: 800px;
   background-color: #F8F8F8;
+  
 }
 
 .profilep {
@@ -19,10 +20,11 @@
   width: 300px;
   padding: 10px;
   position: relative;
-  top: -240px;  
+     
   left: 260px;
 }
 
-.pic { max-height: 240px; }
+.pic { max-width: 240px; position: absolute; }
 
+.flash{ color: #FBB0B0}
 
