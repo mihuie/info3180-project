@@ -42,6 +42,16 @@ def timeinfo():
 def createID():
     return time.strftime("%y%j%H%M%S")
   
+def not_found():
+    message = {
+            'status': 404,
+            'message': 'Not Found: ' + request.url,
+    }
+    resp = jsonify(message)
+    resp.status_code = 404
+
+    return resp
+  
 #insert profile roots
 @app.route('/profile/', methods=['POST','GET'])
 def profile():
@@ -64,8 +74,7 @@ def profile():
           return redirect(url_for('show_user', userid=userid ))
        else:
           flash('Username already taken.')
-          return render_template('profile.html', form=form) 
-        
+          return render_template('profile.html', form=form)       
     else:
         return render_template('profile.html', form=form)  
   
@@ -81,19 +90,26 @@ def show_user(userid):
                      image = user.image,
                      username = user.username,
                      user_id = userid)
-    
+#     else:
+#       not_found()
     return render_template('userprofile.html', user=user, filename = user.image)
 
-  
+
+
 @app.route('/profiles/', methods=['GET'])
 def show_users():
-    users = Profiles.query.all()
-    user_list = []
-    if request.method == 'GET' and request.headers['Content-Type'] == 'application/json':
-       for u in users:
-          return jsonify(username = u.username, userid = u.userid)
-        
-    return render_template('profiles.html', users=users)
+  users = Profiles.query.all()
+  user_list = {}
+  user_list ['users'] = []
+  if request.method == 'GET' and request.headers['Content-Type'] == 'application/json':
+    for u in users:
+      tmp = {
+        'username': u.username,
+        'user_id': u.userid
+      }
+      user_list['users'].append(tmp)
+    return jsonify(user_list)
+  return render_template('profiles.html', users=users)
 
 ###
 # The functions below should be applicable to all Flask apps.
