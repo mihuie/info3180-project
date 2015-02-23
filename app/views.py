@@ -90,8 +90,7 @@ def show_user(userid):
                      image = user.image,
                      username = user.username,
                      user_id = userid)
-#     else:
-#       not_found()
+
     return render_template('userprofile.html', user=user, filename = user.image)
 
 
