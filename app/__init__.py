@@ -8,10 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://action@localhost/action'
 db = SQLAlchemy(app)
 db.create_all()
 
-import logging
-import sys
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
+
 
 
 
