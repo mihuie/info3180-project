@@ -12,3 +12,4 @@ app.logger.setLevel(logging.ERROR)
 
 from app import views, models
 
+db.create_all()
