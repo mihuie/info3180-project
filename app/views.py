@@ -62,13 +62,12 @@ def profile():
            
           userid = createID()#generate user id
           profile_add_on = timeinfo()#gets today's date
-
-          filename = secure_filename(userid)
+          
+          extn = (form.image.data.filename).rsplit('.', 1)[1]
+          filename = secure_filename(userid +'.'+ extn)
           form.image.data.save(UPLOAD_FOLDER + filename)
           imagelocations = 'img/' + filename
-          user = Profiles(userid, form.username.data, form.firstname.data, \
-                          form.lastname.data, form.age.data, form.gender.data, \
-                          profile_add_on, imagelocations)
+          user = Profiles(userid, form.username.data, form.firstname.data, form.lastname.data, form.age.data, form.gender.data, profile_add_on, imagelocations)
           db.session.add(user)
           db.session.commit()
           return redirect(url_for('show_user', userid=userid ))
@@ -98,16 +97,16 @@ def show_user(userid):
 @app.route('/profiles/', methods=['GET'])
 def show_users():
   users = Profiles.query.all()
-  user_list = {}
-  user_list ['users'] = []
-  if request.method == 'GET' and request.headers['Content-Type'] == 'application/json':
-    for u in users:
-      tmp = {
-        'username': u.username,
-        'user_id': u.userid
-      }
-      user_list['users'].append(tmp)
-    return jsonify(user_list)
+#   user_list = {}
+#   user_list ['users'] = []
+#   if request.method == 'GET' and request.headers['Content-Type'] == 'application/json':
+#     for u in users:
+#       tmp = {
+#         'username': u.username,
+#         'user_id': u.userid
+#       }
+#       user_list['users'].append(tmp)
+#     return jsonify(user_list)
   return render_template('profiles.html', users=users)
 
 ###
