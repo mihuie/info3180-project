@@ -16,7 +16,8 @@ from forms import CreateUserForm
 from werkzeug import secure_filename
 from flask import jsonify,session
 
-
+import logging
+import sys
 
 
 app.secret_key = 'my superrr dupper secret_key'
@@ -143,3 +144,5 @@ def page_not_found(error):
 
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0",port="8888")
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
