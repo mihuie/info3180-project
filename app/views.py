@@ -58,22 +58,22 @@ def profile():
     form = CreateUserForm()
     if request.method == "POST" and form.validate():
       
-       if (Profiles.query.filter_by(username = form.username.data).first() is None):
+#        if (Profiles.query.filter_by(username = form.username.data).first() is None):
            
-          userid = createID()#generate user id
-          profile_add_on = timeinfo()#gets today's date
+#           userid = createID()#generate user id
+#           profile_add_on = timeinfo()#gets today's date
 
-          filename = secure_filename(userid)
-          form.image.data.save(UPLOAD_FOLDER + filename)
-          imagelocations = 'img/' + filename
-          user = Profiles(userid, form.username.data, form.firstname.data, \
-                          form.lastname.data, form.age.data, form.gender.data, \
-                          profile_add_on, imagelocations)
-          db.session.add(user)
-          db.session.commit()
-          return redirect(url_for('show_user', userid=userid ))
-       else:
-          flash('Username already taken.')
+#           filename = secure_filename(userid)
+#           form.image.data.save(UPLOAD_FOLDER + filename)
+#           imagelocations = 'img/' + filename
+#           user = Profiles(userid, form.username.data, form.firstname.data, \
+#                           form.lastname.data, form.age.data, form.gender.data, \
+#                           profile_add_on, imagelocations)
+#           db.session.add(user)
+#           db.session.commit()
+#           return redirect(url_for('show_user', userid=userid ))
+#        else:
+#           flash('Username already taken.')
           return render_template('profile.html', form=form)       
     else:
         return render_template('profile.html', form=form)  
