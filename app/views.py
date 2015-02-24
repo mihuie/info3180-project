@@ -144,6 +144,5 @@ def page_not_found(error):
 
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0",port="8888")
-
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
