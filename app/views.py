@@ -67,7 +67,9 @@ def profile():
           filename = secure_filename(userid +'.'+ extn)
           form.image.data.save(UPLOAD_FOLDER + filename)
           imagelocations = 'img/' + filename
-          user = Profiles(userid, form.username.data, form.firstname.data, form.lastname.data, form.age.data, form.gender.data, profile_add_on, imagelocations)
+          user = Profiles(userid, form.username.data, form.firstname.data, \
+                          form.lastname.data, form.age.data, form.gender.data, \
+                          profile_add_on, imagelocations)
           db.session.add(user)
           db.session.commit()
           return redirect(url_for('show_user', userid=userid ))
@@ -80,7 +82,7 @@ def profile():
   
 @app.route('/profile/<userid>', methods =['GET','POST'])
 def show_user(userid):
-#     user = Profiles.query.filter_by(userid=userid).first_or_404()
+    user = Profiles.query.filter_by(userid=userid).first_or_404()
     
 #     if request.headers['Content-Type'] == 'application/json': 
 #       return jsonify(profile_add_on = user.profile_add_on,
