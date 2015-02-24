@@ -80,15 +80,15 @@ def profile():
   
 @app.route('/profile/<userid>', methods =['GET','POST'])
 def show_user(userid):
-    user = Profiles.query.filter_by(userid=userid).first_or_404()
+#     user = Profiles.query.filter_by(userid=userid).first_or_404()
     
-    if request.headers['Content-Type'] == 'application/json': 
-      return jsonify(profile_add_on = user.profile_add_on,
-                     age = user.age,
-                     sex = user.gender,
-                     image = user.image,
-                     username = user.username,
-                     user_id = userid)
+#     if request.headers['Content-Type'] == 'application/json': 
+#       return jsonify(profile_add_on = user.profile_add_on,
+#                      age = user.age,
+#                      sex = user.gender,
+#                      image = user.image,
+#                      username = user.username,
+#                      user_id = userid)
 
     return render_template('userprofile.html', user=user, filename = user.image)
 
