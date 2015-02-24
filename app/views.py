@@ -57,16 +57,12 @@ def not_found():
 def profile():
     form = CreateUserForm()
     if request.method == "POST" and form.validate():
-       userid = createID()#generate user id
-       profile_add_on = timeinfo()#gets today's date
       
-       return '{}, {}'.format(userid, profile_add_on) 
-         
 #        if (Profiles.query.filter_by(username = form.username.data).first() is None):
            
 #           userid = createID()#generate user id
 #           profile_add_on = timeinfo()#gets today's date
-          
+
 #           filename = secure_filename(userid)
 #           form.image.data.save(UPLOAD_FOLDER + filename)
 #           imagelocations = 'img/' + filename
@@ -78,7 +74,10 @@ def profile():
 #           return redirect(url_for('show_user', userid=userid ))
 #        else:
 #           flash('Username already taken.')
-          return render_template('profile.html', form=form)       
+          userid = createID()#generate user id
+          profile_add_on = timeinfo()#gets today's date
+          return '{}, {}'.format(userid, profile_add_on)
+#           return render_template('profile.html', form=form)       
     else:
         return render_template('profile.html', form=form)  
   
