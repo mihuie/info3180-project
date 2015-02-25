@@ -14,7 +14,8 @@ import sqlite3
 from app.models import Profiles
 from forms import CreateUserForm
 from werkzeug import secure_filename
-from flask import jsonify,session
+from flask import jsonify
+from flask import session
 
 app.secret_key = 'my superrr dupper secret_key'
 UPLOAD_FOLDER = 'app/static/img/'
@@ -101,8 +102,7 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-#   if request.method == 'GET'and (request.headers['Content-Type'] == 'application/json'):
-  if request.headers['Content-Type'] == 'application/json':
+  if request.method == 'GET'and (request.headers['Content-Type'] == 'application/json'):
     for u in users:
       tmp = {
         'username': u.username,
@@ -110,8 +110,7 @@ def show_users():
       }
       user_list['users'].append(tmp)
     return jsonify(user_list)
-  else:
-    return render_template('profiles.html', users=users)
+  return render_template('profiles.html', users=users)
 
 ###
 # The functions below should be applicable to all Flask apps.
@@ -142,4 +141,4 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0",port="8888")
+    app.run(debug=True,PROPAGATE_EXCEPTIONS=True, host="0.0.0.0",port="8888")
