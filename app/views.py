@@ -42,16 +42,7 @@ def timeinfo():
 def createID():
     return time.strftime("%y%j%H%M%S")
   
-def not_found():
-    message = {
-            'status': 404,
-            'message': 'Not Found: ' + request.url,
-    }
-    resp = jsonify(message)
-    resp.status_code = 404
 
-    return resp
-  
 #insert profile roots
 @app.route('/profile/', methods=['POST','GET'])
 def profile():
@@ -67,8 +58,8 @@ def profile():
           filename = secure_filename(userid +'.'+ extn)
           form.image.data.save(UPLOAD_FOLDER + filename)
           imagelocations = 'img/' + filename
-          user = Profiles(userid, form.username.data, form.firstname.data, \
-                          form.lastname.data, form.age.data, form.gender.data, \
+          user = Profiles(userid, form.username.data, (form.firstname.data).title(), \
+                          (form.lastname.data).title(), form.age.data, form.gender.data, \
                           profile_add_on, imagelocations)
           db.session.add(user)
           db.session.commit()
@@ -84,13 +75,13 @@ def profile():
 def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()
     
-    if request.headers['Content-Type'] == 'application/json': 
-      return jsonify(profile_add_on = user.profile_add_on,
-                     age = user.age,
-                     sex = user.gender,
-                     image = user.image,
-                     username = user.username,
-                     user_id = userid)
+#     if request.headers['Content-Type'] == 'application/json': 
+#       return jsonify(profile_add_on = user.profile_add_on,
+#                      age = user.age,
+#                      sex = user.gender,
+#                      image = user.image,
+#                      username = user.username,
+#                      user_id = userid)
     return render_template('userprofile.html', user=user, filename = user.image)
 
 @app.route('/testheaders', methods = ['GET','POST'])
@@ -103,14 +94,14 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
-    for u in users:
-      tmp = {
-        'username': u.username,
-        'user_id': u.userid
-      }
-      user_list['users'].append(tmp)
-    return jsonify(user_list)
+#   if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
+#     for u in users:
+#       tmp = {
+#         'username': u.username,
+#         'user_id': u.userid
+#       }
+#       user_list['users'].append(tmp)
+#     return jsonify(user_list)
   return render_template('profiles.html', users=users)
 
 ###

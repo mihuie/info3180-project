@@ -14,7 +14,7 @@ Profiles
 
   {% for user in users %}
   <p>
-  <h3> {{ user.firstname }} {{ user.lastname }} </h3>
+  <h3> <a href="{{ url_for('show_user', userid = user.userid) }}"> {{ user.firstname }} {{ user.lastname }} </a> </h3>
     <b>User ID:</b> {{ user.userid }} <br> 
     <b>Username:</b> {{ user.username }}  <br> 
     <b>Created:</b> {{user.profile_add_on }} <br> 
