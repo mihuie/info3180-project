@@ -10,7 +10,6 @@ from app import app
 from flask import render_template, request, redirect, url_for, flash
 import smtplib  
 import time
-import sqlite3
 from app.models import Profiles
 from forms import CreateUserForm
 from werkzeug import secure_filename
@@ -93,7 +92,7 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
+  if request.method == 'GET':#and request.headers['Content-Type'] == 'application/json':
     for u in users:
       tmp = {
         'username': u.username,
@@ -101,7 +100,7 @@ def show_users():
       }
       user_list['users'].append(tmp)
     return jsonify(user_list)
-  return render_template('profiles.html', users=users)
+#   return render_template('profiles.html', users=users)
 
 ###
 # The functions below should be applicable to all Flask apps.
