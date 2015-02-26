@@ -92,7 +92,7 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET':#and request.headers['Content-Type'] == 'application/json':
+  if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
     for u in users:
       tmp = {
         'username': u.username,
