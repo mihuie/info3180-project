@@ -88,7 +88,7 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET:
+  if request.method == 'GET':
     if request.headers['Content-Type'] != 'application/json':
       profiles(users)
     else:
