@@ -95,8 +95,11 @@ def show_users():
         'user_id': u.userid
       }
       user_list['users'].append(tmp)
-    return render_template('profiles.html', users=users) 
-  return jsonify(user_list)
+    return jsonify(user_list)
+  return profiles(users)
+
+def profiles(users):
+  return render_template('profiles.html', users=users)
 
 ###
 # The functions below should be applicable to all Flask apps.
