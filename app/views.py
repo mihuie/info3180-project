@@ -72,7 +72,6 @@ def profile():
 @app.route('/profile/<userid>', methods =['GET','POST'])
 def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()
-    
     if request.headers['Content-Type'] == 'application/json': 
       return jsonify(profile_add_on = user.profile_add_on,
                      age = user.age,
@@ -82,19 +81,14 @@ def show_user(userid):
                      user_id = userid)
     return render_template('userprofile.html', user=user, filename = user.image)
 
-@app.route('/testheaders', methods = ['GET','POST'])
-def testheaders():
-  return request.headers['Content-Type']
-
 
 @app.route('/profiles/', methods=['GET'])
 def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET'and request.headers['Content-Type'] != 'application/json':
-    return render_template('profiles.html', users=users)
-  else: 
+  return render_template('profiles.html', users=users)
+  if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
     for u in users:
       tmp = {
         'username': u.username,
@@ -102,6 +96,8 @@ def show_users():
       }
       user_list['users'].append(tmp)
     return jsonify(user_list)
+  
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###
