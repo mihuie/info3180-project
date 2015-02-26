@@ -87,12 +87,12 @@ def testheaders():
   return request.headers['Content-Type']
 
 
-@app.route('/profiles/', methods=['GET'])
+@app.route('/profiles/', methods=['GET','POST'])
 def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET':#and request.headers['Content-Type'] == 'application/json':
+  if request.method == 'POST':#and request.headers['Content-Type'] == 'application/json':
     for u in users:
       tmp = {
         'username': u.username,
