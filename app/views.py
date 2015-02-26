@@ -88,21 +88,15 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET':
-    if request.headers['Content-Type'] != 'application/json':
-      profiles(users)
-    else:
-      for u in users:
-        tmp = {
-          'username': u.username,
-          'user_id': u.userid
-        }
-        user_list['users'].append(tmp)
-      return jsonify(user_list)
-
-
-def profiles(users):
-  return render_template('profiles.html', users=users)
+  if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
+    for u in users:
+      tmp = {
+        'username': u.username,
+        'user_id': u.userid
+      }
+      user_list['users'].append(tmp)
+    return jsonify(user_list)
+#   return render_template('profiles.html', users=users)
 
 ###
 # The functions below should be applicable to all Flask apps.
