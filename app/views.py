@@ -47,7 +47,7 @@ def createID():
 def profile():
     form = CreateUserForm()
     if request.method == "POST" and form.validate():
-      
+    
        if (Profiles.query.filter_by(username = form.username.data).first() is None):
            
           userid = createID()#generate user id
@@ -73,7 +73,8 @@ def profile():
 def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()
     
-    if request.headers['Content-Type'] == 'application/json': 
+#     if request.headers['Content-Type'] == 'application/json':
+    if request.method == "POST":  
       return jsonify(profile_add_on = user.profile_add_on,
                      age = user.age,
                      sex = user.gender,
@@ -88,7 +89,8 @@ def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
-  if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
+#   if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
+  if request.method == "POST":  
     for u in users:
       tmp = {
         'username': u.username,
@@ -96,7 +98,7 @@ def show_users():
       }
       user_list['users'].append(tmp)
     return jsonify(user_list)
-#   return render_template('profiles.html', users=users)
+  return render_template('profiles.html', users=users)
 
 ###
 # The functions below should be applicable to all Flask apps.
