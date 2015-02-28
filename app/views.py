@@ -43,7 +43,7 @@ def createID():
   
 
 #insert profile roots
-@app.route('/profile/', methods=['POST'])
+@app.route('/profile/', methods=['POST','GET'])
 def profile():
     form = CreateUserForm()
     if request.method == 'POST' and form.validate():
