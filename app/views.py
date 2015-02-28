@@ -43,10 +43,10 @@ def createID():
   
 
 #insert profile roots
-@app.route('/profile/', methods=['POST','GET'])
+@app.route('/profile/', methods=['GET'])
 def profile():
     form = CreateUserForm()
-    if request.method == "POST" and form.validate():
+    if request.method == 'GET' and form.validate():
     
        if (Profiles.query.filter_by(username = form.username.data).first() is None):
            
@@ -74,7 +74,7 @@ def show_user(userid):
     user = Profiles.query.filter_by(userid=userid).first_or_404()
     
 #     if request.headers['Content-Type'] == 'application/json':
-    if request.method == "POST":  
+    if request.method == 'POST':  
       return jsonify(profile_add_on = user.profile_add_on,
                      age = user.age,
                      sex = user.gender,
@@ -84,13 +84,13 @@ def show_user(userid):
     return render_template('userprofile.html', user=user, filename = user.image)
 
 
-@app.route('/profiles/', methods=['GET'])
+@app.route('/profiles/', methods=['GET','POST'])
 def show_users():
   users = Profiles.query.all()
   user_list = {}
   user_list ['users'] = []
 #   if request.method == 'GET'and request.headers['Content-Type'] == 'application/json':
-  if request.method == "POST":  
+  if request.method == 'POST':  
     for u in users:
       tmp = {
         'username': u.username,
