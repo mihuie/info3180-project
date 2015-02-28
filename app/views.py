@@ -43,10 +43,10 @@ def createID():
   
 
 #insert profile roots
-@app.route('/profile/', methods=['GET'])
+@app.route('/profile/', methods=['POST'])
 def profile():
     form = CreateUserForm()
-    if request.method == 'GET' and form.validate():
+    if request.method == 'POST' and form.validate():
     
        if (Profiles.query.filter_by(username = form.username.data).first() is None):
            
